@@ -45,8 +45,7 @@ def get_topic(url, session):
             pass
     return ""
 
-
-if __name__ == "__main__":
+def main():
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     olds = None
     try:
@@ -155,3 +154,5 @@ if __name__ == "__main__":
     w.save('火车采集器{}数据统计.xls'.format(datetime.date.today()))
     print "文件创建完成"
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+if __name__ == "__main__":
+    main()
