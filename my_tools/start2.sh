@@ -1,0 +1,1 @@
+nohup /home/work/env/python-2.7/bin/python my_email.py &>my_email.log &
