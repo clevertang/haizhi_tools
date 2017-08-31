@@ -45,6 +45,7 @@ def get_topic(url, session):
             pass
     return ""
 
+
 def main():
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     olds = None
@@ -154,5 +155,7 @@ def main():
     w.save('火车采集器{}数据统计.xls'.format(datetime.date.today()))
     print "文件创建完成"
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+
+
 if __name__ == "__main__":
     main()
