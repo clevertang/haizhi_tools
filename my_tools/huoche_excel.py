@@ -104,6 +104,7 @@ def main():
     wenshu_count = 0
     wenshu_new = 0
     wrong = 0
+    today_data = []
     for i in xrange(0, len(all_sites)):
         task_id = all_sites[i]["JobId"]
         task_name = all_sites[i]["JobName"]
@@ -116,7 +117,7 @@ def main():
         sheet1.write(i + 1, 0, task_name.decode('utf-8'))
         sheet1.write(i + 1, 1, topic.decode('utf-8'))
         sheet1.write(i + 1, 2, str(count).decode('utf-8'))
-        f.write(str(count) + "\n")
+        today_data.append(str(count) + "\n")
         try:
             old = olds[i]
         except:
@@ -151,6 +152,7 @@ def main():
     sheet2.write(9, 1, bid_count)
     sheet2.write(10, 1, bid_new)
     sheet2.write(11, 1, wrong)
+    f.write(str.join("", today_data))
     f.close()
     w.save('火车采集器{}数据统计.xls'.format(datetime.date.today()))
     print "文件创建完成"
