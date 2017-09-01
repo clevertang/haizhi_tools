@@ -16,13 +16,15 @@ _user = my_setting.email_setting["fromaddress"]
 _pwd = my_setting.email_setting["frompassword"]
 youfeng = my_setting.email_setting["toaddress1"]
 hubo = my_setting.email_setting["toaddress2"]
+_cc = "zhangjun@haizhi.com"
 
 
 def send(topic, name, _to):
     msg = MIMEMultipart()
     msg["Subject"] = str(datetime.date.today())
     msg["From"] = _user
-    msg["To"] = _to
+    msg["To"] = [_to, _user]
+    msg["Cc"] = _cc
     part = MIMEText(topic, "utf-8")
     msg.attach(part)
 
@@ -42,6 +44,6 @@ def send(topic, name, _to):
         print "Falied,%s" % e
 
 
-if __name__=="__main__":
-    send("火车采集器统计情况","huoche.xls",hubo)
-    send("招行站点统计情况","result.xls",youfeng)
+if __name__ == "__main__":
+    send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()), hubo)
+    send("招行站点统计情况", "result.xls", youfeng)
