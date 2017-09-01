@@ -23,7 +23,7 @@ def send(topic, name, _to):
     msg = MIMEMultipart()
     msg["Subject"] = str(datetime.date.today())
     msg["From"] = _user
-    msg["To"] = _to
+    msg["To"] = [_to, _user]
     msg["Cc"] = _cc
     part = MIMEText(topic, "utf-8")
     msg.attach(part)
