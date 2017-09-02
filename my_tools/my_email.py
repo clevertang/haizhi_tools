@@ -23,7 +23,7 @@ def send(topic, name, _to):
     msg = MIMEMultipart()
     msg["Subject"] = str(datetime.date.today())
     msg["From"] = _user
-    msg["To"] = [_to, _user]
+    msg["To"] = _to
     msg["Cc"] = _cc
     part = MIMEText(topic, "utf-8")
     msg.attach(part)
@@ -37,7 +37,7 @@ def send(topic, name, _to):
     try:
         s = smtplib.SMTP_SSL("smtp.qq.com", 465)
         s.login(_user, _pwd)
-        s.sendmail(_user, _to, msg.as_string())
+        s.sendmail(_user, _to.split(","), msg.as_string())
         s.quit()
         print "Success!"
     except smtplib.SMTPException, e:

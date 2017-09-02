@@ -1,2 +1,0 @@
-0 6 * * * python huoche_excel.py
-0 6 * * * python mongo_count.py
