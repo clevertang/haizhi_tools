@@ -10,8 +10,8 @@ import logging
 email_setting = {
     "fromaddress": "961577196@qq.com",
     "frompassword": "rsgeoletgvntbfeh",
-    "toaddress1": "youfeng@haizhi.com",
-    "toaddress2": "hubo@haizhi.com",
+    "toaddress1": "youfeng@haizhi.com,tangxin@haizhi.com",
+    "toaddress2": "hubo@haizhi.com,tangxin@haizhi.com",
     "server": "smtp.qq.com"
 
 }
