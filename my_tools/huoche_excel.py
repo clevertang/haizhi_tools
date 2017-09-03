@@ -22,7 +22,7 @@ def get_count(url, session):
     while try_count < 3:
         try:
             try_count += 1
-            resp = session.get(url)
+            resp = session.get(url, timeout=30)
             if resp.status_code != 200 or resp.text == "":
                 logging.error("网络异常")
             return json.loads(resp.content)["Count"]
@@ -36,7 +36,7 @@ def get_topic(url, session):
     while try_count < 3:
         try:
             try_count += 1
-            resp = session.get(url)
+            resp = session.get(url, timeout=30)
             if resp.status_code != 200 or resp.text == "":
                 print "出错,请重试"
             data = json.loads(resp.content)["Data"]
