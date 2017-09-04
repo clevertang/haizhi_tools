@@ -21,6 +21,8 @@ _cc = "zhangjun@haizhi.com"
 
 def send(topic, name, _to):
     msg = MIMEMultipart()
+    msg["Accept-Language"] = "zh-CN"
+    msg["Accept-Charset"] = "ISO-8859-1,utf-8"
     msg["Subject"] = str(datetime.date.today())
     msg["From"] = _user
     msg["To"] = _to
@@ -31,7 +33,7 @@ def send(topic, name, _to):
     # ---这是附件部分---
     # xlsx类型附件
     part = MIMEApplication(open(name, 'rb').read())
-    part.add_header('Content-Disposition', 'attachment', filename=name)
+    part.add_header('Content-Disposition', 'attachment', filename=name.encode("gb2312"))
     msg.attach(part)
 
     try:
@@ -45,5 +47,5 @@ def send(topic, name, _to):
 
 
 if __name__ == "__main__":
-    send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()), hubo)
+    send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()).decode("utf-8"), hubo)
     send("招行站点统计情况", "result.xls", youfeng)
