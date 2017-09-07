@@ -8,8 +8,8 @@
 import logging
 
 email_setting = {
-    "fromaddress": "961577196@qq.com",
-    "frompassword": "rsgeoletgvntbfeh",
+    "fromaddress": "tangxin@haizhi.com",
+    "frompassword": "tx123321z",
     "toaddress1": "youfeng@haizhi.com,tangxin@haizhi.com",
     "toaddress2": "hubo@haizhi.com,tangxin@haizhi.com",
     "server": "smtp.qq.com"
