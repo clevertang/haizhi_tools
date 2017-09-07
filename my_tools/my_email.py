@@ -37,7 +37,7 @@ def send(topic, name, _to):
     msg.attach(part)
 
     try:
-        s = smtplib.SMTP_SSL("smtp.qq.com", 465)
+        s = smtplib.SMTP_SSL("smtp.weibangong.com", 465)
         s.login(_user, _pwd)
         s.sendmail(_user, _to.split(","), msg.as_string())
         s.quit()
