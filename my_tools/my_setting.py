@@ -17,7 +17,7 @@ mysql_setting = {
 
 email_setting = {
     "fromaddress": "tangxin@haizhi.com",
-    "frompassword": "tx123321z",
+    "frompassword": "123456",
     "toaddress1": "youfeng@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
     "toaddress2": "hubo@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
     "server": "smtp.qq.com"
