@@ -7,11 +7,19 @@
 """
 import logging
 
+mysql_setting = {
+    "host": "rm-wz9x07x9567465305.mysql.rds.aliyuncs.com",
+    "port": "3306",
+    "db": 'cmb_crawl',
+    "user": 'work',
+    "passwd": 'haizhi@)3'
+}
+
 email_setting = {
     "fromaddress": "tangxin@haizhi.com",
     "frompassword": "tx123321z",
-    "toaddress1": "youfeng@haizhi.com,tangxin@haizhi.com",
-    "toaddress2": "hubo@haizhi.com,tangxin@haizhi.com",
+    "toaddress1": "youfeng@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
+    "toaddress2": "hubo@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
     "server": "smtp.qq.com"
 
 }
