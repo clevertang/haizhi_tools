@@ -45,6 +45,9 @@ def main():
     rows = sh.nrows
     start = get_start(days)
     end = str(datetime.date.today())
+    table.write(1, 0, "site_name")
+    table.write(1, 1, "_in_time")
+    table.write(1, 2, "_utime")
 
     for i in xrange(2, rows):
         row_data = sh.row_values(i)
@@ -60,7 +63,7 @@ def main():
         table.write(i, 0, site)
         table.write(i, 1, increase)
         table.write(i, 2, update)
-        table.write(i, 3, user)
+        # table.write(i, 3, user)
         print i, site, increase, update
     excel_file.save("result.xls")
     print "完成"
