@@ -14,8 +14,8 @@ from pyExcelerator import *
 reload(sys)
 sys.setdefaultencoding('utf-8')
 import requests
-import logging
-
+from common.loghandler import getLogger
+logger = getLogger(task_name="huoche")
 
 def get_count(url, session):
     try_count = 0
@@ -24,7 +24,7 @@ def get_count(url, session):
             try_count += 1
             resp = session.get(url, timeout=30)
             if resp.status_code != 200 or resp.text == "":
-                logging.error("网络异常")
+                logger.error("网络异常")
             return json.loads(resp.content)["Count"]
         except:
             pass
@@ -86,13 +86,13 @@ def main():
             try_count += 1
             resp = session.get(url)
             if resp.status_code != 200 or resp.text == "":
-                logging.error("网络异常")
+                logger.error("网络异常")
             all_sites = json.loads(resp.content)["Data"]
             break
         except Exception as e:
-            logging.exception(e)
+            logger.exception(e)
     if try_count == 3:
-        logging.info("程序退出")
+        logger.info("程序退出")
         sys.exit()
     news_num = 0
     news_count = 0
@@ -123,6 +123,8 @@ def main():
         except:
             old = 0
         increase = count - int(old)
+        if increase < 0:
+            increase = 0
         sheet1.write(i + 1, 3, increase)
         if "news" in topic:
             news_num += 1
