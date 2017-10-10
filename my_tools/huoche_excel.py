@@ -16,7 +16,9 @@ sys.setdefaultencoding('utf-8')
 sys.path.append('..')
 import requests
 from common.loghandler import getLogger
+
 logger = getLogger(task_name="huoche")
+
 
 def get_count(url, session):
     try_count = 0
@@ -29,7 +31,7 @@ def get_count(url, session):
             return json.loads(resp.content)["Count"]
         except:
             pass
-    return 0
+    return "-"
 
 
 def get_topic(url, session):
@@ -123,9 +125,10 @@ def main():
             old = olds[i]
         except:
             old = 0
-        increase = count - int(old)
-        if increase < 0:
+        if count == "-":
             increase = 0
+        else:
+            increase = count - int(old)
         sheet1.write(i + 1, 3, increase)
         if "news" in topic:
             news_num += 1
