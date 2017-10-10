@@ -13,6 +13,7 @@ from pyExcelerator import *
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
+sys.path.append('..')
 import requests
 from common.loghandler import getLogger
 logger = getLogger(task_name="huoche")
