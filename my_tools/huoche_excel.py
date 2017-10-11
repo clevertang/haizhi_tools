@@ -63,22 +63,26 @@ def main():
     w = Workbook()
     sheet1 = w.add_sheet('站点数据量统计'.decode("utf-8"))
     sheet2 = w.add_sheet("数据总览".decode("utf-8"))
+    sheet3 = w.add_sheet("异常站点".decode("utf-8"))
+    sheet3.write(0, 0, "task_id")
+    sheet3.write(0, 1, "task_name")
     sheet1.write(0, 0, '站点'.decode("utf-8"))
     sheet1.write(0, 1, '主题'.decode("utf-8"))
     sheet1.write(0, 2, '数据量'.decode("utf-8"))
     sheet1.write(0, 3, '数据增量'.decode("utf-8"))
-    sheet2.write(0, 0, "站点(模块)总数".decode("utf-8"))
-    sheet2.write(1, 0, "昨日新增站点数".decode("utf-8"))
-    sheet2.write(2, 0, "新闻站点总数".decode("utf-8"))
-    sheet2.write(3, 0, "新闻数据量总数".decode("utf-8"))
-    sheet2.write(4, 0, "新闻数据昨日新增数".decode("utf-8"))
-    sheet2.write(5, 0, "裁判文书站点总数".decode("utf-8"))
-    sheet2.write(6, 0, "裁判文书数据量总数".decode("utf-8"))
-    sheet2.write(7, 0, "裁判文书昨日新增".decode("utf-8"))
-    sheet2.write(8, 0, "招投标站点总数".decode("utf-8"))
-    sheet2.write(9, 0, "招投标数据量总数".decode("utf-8"))
-    sheet2.write(10, 0, "招投标昨日新增".decode("utf-8"))
-    sheet2.write(11, 0, "异常站点".decode("utf-8"))
+    sheet2.write(0, 1, "总数".decode("utf-8"))
+    sheet2.write(0, 2, "{}新增".format(datetime.date.today()).decode("utf-8"))
+    sheet2.write(1, 0, "新闻类型数据量".decode("utf-8"))
+    sheet2.write(2, 0, "裁判文书数据量".decode("utf-8"))
+    sheet2.write(3, 0, "招投标数据量".decode("utf-8"))
+    sheet2.write(6, 0, "站点统计".decode("utf-8"))
+    sheet2.write(6, 1, "站点数量".decode("utf-8"))
+    sheet2.write(7, 0, "新闻站点".decode("utf-8"))
+    sheet2.write(8, 0, "裁判文书站点".decode("utf-8"))
+    sheet2.write(9, 0, "招投标站点".decode("utf-8"))
+    sheet2.write(10, 0, "异常站点".decode("utf-8"))
+    sheet2.write(11, 0, "站点(模块)数量".decode("utf-8"))
+    sheet2.write(14, 0, "{}新增站点".format(datetime.date.today()).decode("utf-8"))
 
     session = requests.session()
     url = "http://182.61.40.11:808/api?&model=job&action=list&type=json"
@@ -108,6 +112,7 @@ def main():
     wenshu_new = 0
     wrong = 0
     today_data = []
+    wrong_task = {}
     for i in xrange(0, len(all_sites)):
         task_id = all_sites[i]["JobId"]
         task_name = all_sites[i]["JobName"]
@@ -142,18 +147,24 @@ def main():
             bid_new += increase
         else:
             wrong += 1
-    sheet2.write(0, 1, len(all_sites))
-    sheet2.write(1, 1, len(all_sites) - len(olds))
-    sheet2.write(2, 1, news_num)
-    sheet2.write(3, 1, news_count)
-    sheet2.write(4, 1, news_new)
-    sheet2.write(5, 1, wenshu_num)
-    sheet2.write(6, 1, wenshu_count)
-    sheet2.write(7, 1, wenshu_new)
-    sheet2.write(8, 1, bid_num)
-    sheet2.write(9, 1, bid_count)
-    sheet2.write(10, 1, bid_new)
-    sheet2.write(11, 1, wrong)
+            wrong_task[task_id] = task_name
+    rows = 0
+    for v, k in wrong_task.items():
+        sheet3.write(rows, 0, v)
+        sheet3.write(rows, 1, k)
+        rows += 1
+    sheet2.write(11, 1, len(all_sites))
+    sheet2.write(14, 1, len(all_sites) - len(olds))
+    sheet2.write(7, 1, news_num)
+    sheet2.write(1, 1, news_count)
+    sheet2.write(1, 2, news_new)
+    sheet2.write(8, 1, wenshu_num)
+    sheet2.write(2, 1, wenshu_count)
+    sheet2.write(2, 2, wenshu_new)
+    sheet2.write(9, 1, bid_num)
+    sheet2.write(3, 1, bid_count)
+    sheet2.write(3, 2, bid_new)
+    sheet2.write(10, 1, wrong)
     f.write(str.join("", today_data))
     f.close()
     w.save('火车采集器{}数据统计.xls'.format(datetime.date.today()))
