@@ -113,29 +113,24 @@ def main():
         task_name = all_sites[i]["JobName"]
         count_url = "http://182.61.40.11:808/api?model=data&action=count&opreator=0&type=json&jobid={}".format(task_id)
         topic_url = "http://182.61.40.11:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(task_id)
-
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
-
-        sheet1.write(i + 1, 0, task_name.decode('utf-8'))
-        sheet1.write(i + 1, 1, topic.decode('utf-8'))
-        sheet1.write(i + 1, 2, str(count).decode('utf-8'))
-        today_data.append(str(count) + "\n")
         try:
             old = olds[i]
         except:
             old = 0
         if count == "-":
-            increase = 0
-            count = 0
-        else:
-            increase = count - int(old)
+            count = old
+        increase = count - int(old)
+        sheet1.write(i + 1, 0, task_name.decode('utf-8'))
+        sheet1.write(i + 1, 1, topic.decode('utf-8'))
+        sheet1.write(i + 1, 2, str(count).decode('utf-8'))
+        today_data.append(str(count) + "\n")
         sheet1.write(i + 1, 3, increase)
         if "news" in topic:
             news_num += 1
             news_count += count
             news_new += increase
-
         elif "wenshu" in topic:
             wenshu_num += 1
             wenshu_count += count
