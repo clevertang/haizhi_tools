@@ -127,6 +127,7 @@ def main():
             old = 0
         if count == "-":
             increase = 0
+            count = 0
         else:
             increase = count - int(old)
         sheet1.write(i + 1, 3, increase)
