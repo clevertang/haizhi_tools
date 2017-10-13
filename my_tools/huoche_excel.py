@@ -126,7 +126,10 @@ def main():
             old = 0
         if count == "-":
             count = old
-        increase = count - int(old)
+        try:
+            increase = count - int(old)
+        except:
+            increase = 0
         sheet1.write(i + 1, 0, task_name.decode('utf-8'))
         sheet1.write(i + 1, 1, topic.decode('utf-8'))
         sheet1.write(i + 1, 2, str(count).decode('utf-8'))
