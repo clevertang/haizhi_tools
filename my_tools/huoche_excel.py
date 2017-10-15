@@ -120,10 +120,14 @@ def main():
         topic_url = "http://182.61.40.11:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(task_id)
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
+        if "\n" in count:
+            count = count.replace("\n", "")
         try:
             old = olds[i]
         except:
             old = 0
+        if "\n" in old:
+            old = old.replace("\n", "")
         if count == "-":
             count = old
         try:
@@ -151,6 +155,7 @@ def main():
         else:
             wrong += 1
             wrong_task[task_id] = task_name
+
     rows = 0
     for v, k in wrong_task.items():
         sheet3.write(rows, 0, v)
