@@ -122,12 +122,11 @@ def main():
         topic = get_topic(topic_url, session).replace('\r\n', '')
         if not isinstance(count, int):
             count = count.replace("\n", "")
+            count = int(count)
         try:
             old = olds[i]
         except:
             old = 0
-        if "\n" in old:
-            old = old.replace("\n", "")
         if count == "-":
             count = old
         try:
