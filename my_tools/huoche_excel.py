@@ -120,7 +120,7 @@ def main():
         topic_url = "http://182.61.40.11:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(task_id)
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
-        if "\n" in count:
+        if not isinstance(count, int):
             count = count.replace("\n", "")
         try:
             old = olds[i]
