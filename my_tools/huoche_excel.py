@@ -120,17 +120,18 @@ def main():
         topic_url = "http://182.61.40.11:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(task_id)
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
-        if not isinstance(count, int):
-            count = count.replace("\n", "")
-            count = int(count)
         try:
             old = olds[i]
         except:
             old = 0
         if count == "-":
             count = old
+        if not isinstance(count, int):
+            count = count.replace("\n", "")
+            count = int(count)
         try:
             increase = count - int(old)
+            logger.info(str(old) + ":" + str(count) + ":" + str(increase))
         except:
             increase = 0
         sheet1.write(i + 1, 0, task_name.decode('utf-8'))
