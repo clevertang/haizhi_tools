@@ -16,7 +16,7 @@ sys.setdefaultencoding('utf-8')
 sys.path.append('..')
 import requests
 from common.loghandler import getLogger
-
+HOST="192.168.1.89"
 logger = getLogger(task_name="huoche")
 
 
@@ -29,8 +29,9 @@ def get_count(url, session):
             if resp.status_code != 200 or resp.text == "":
                 logger.error("网络异常")
             return json.loads(resp.content)["Count"]
-        except:
-            pass
+        except Exception as e:
+            logger.error("超时")
+            logger.exception(e)
     return "-"
 
 
@@ -45,7 +46,8 @@ def get_topic(url, session):
             data = json.loads(resp.content)["Data"]
             return data[0]["topic"]
         except Exception as e:
-            pass
+            logger.error("超时")
+            logger.exception(e)
     return ""
 
 
@@ -85,7 +87,7 @@ def main():
     sheet2.write(14, 0, "{}新增站点".format(datetime.date.today()).decode("utf-8"))
 
     session = requests.session()
-    url = "http://182.61.40.11:808/api?&model=job&action=list&type=json"
+    url = "http://{}:808/api?&model=job&action=list&type=json".format(HOST)
     try_count = 0
     all_sites = None
     while try_count < 3:
@@ -100,6 +102,9 @@ def main():
             logger.exception(e)
     if try_count == 3:
         logger.info("程序退出")
+        for old in olds:
+            f.write(old)
+        f.close()
         sys.exit()
     news_num = 0
     news_count = 0
@@ -116,8 +121,8 @@ def main():
     for i in xrange(0, len(all_sites)):
         task_id = all_sites[i]["JobId"]
         task_name = all_sites[i]["JobName"]
-        count_url = "http://182.61.40.11:808/api?model=data&action=count&opreator=0&type=json&jobid={}".format(task_id)
-        topic_url = "http://182.61.40.11:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(task_id)
+        count_url = "http://{}:808/api?model=data&action=count&opreator=0&type=json&jobid={}".format(HOST,task_id)
+        topic_url = "http://{}:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(HOST,task_id)
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
         try:
