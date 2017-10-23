@@ -48,4 +48,4 @@ def send(topic, name, _to):
 
 if __name__ == "__main__":
     send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()).decode("utf-8"), hubo)
-    send("招行站点统计情况", "result.xls", youfeng)
+    # send("招行站点统计情况", "result.xls", youfeng)
