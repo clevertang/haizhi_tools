@@ -16,7 +16,8 @@ sys.setdefaultencoding('utf-8')
 sys.path.append('..')
 import requests
 from common.loghandler import getLogger
-HOST="192.168.1.89"
+
+HOST = "192.168.1.89"
 logger = getLogger(task_name="huoche")
 
 
@@ -42,9 +43,13 @@ def get_topic(url, session):
             try_count += 1
             resp = session.get(url, timeout=30)
             if resp.status_code != 200 or resp.text == "":
-                print "出错,请重试"
+                logger.error("访问出错")
             data = json.loads(resp.content)["Data"]
-            return data[0]["topic"]
+            for i in xrange(5):
+                topic = data[i]["topic"]
+                if len(topic) > 1:
+                    return topic
+            return topic
         except Exception as e:
             logger.error("超时")
             logger.exception(e)
@@ -121,8 +126,8 @@ def main():
     for i in xrange(0, len(all_sites)):
         task_id = all_sites[i]["JobId"]
         task_name = all_sites[i]["JobName"]
-        count_url = "http://{}:808/api?model=data&action=count&opreator=0&type=json&jobid={}".format(HOST,task_id)
-        topic_url = "http://{}:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(HOST,task_id)
+        count_url = "http://{}:808/api?model=data&action=count&opreator=0&type=json&jobid={}".format(HOST, task_id)
+        topic_url = "http://{}:808/api?model=data&action=view&type=json&pn=0&rn=20&jobid={}".format(HOST, task_id)
         count = get_count(count_url, session)
         topic = get_topic(topic_url, session).replace('\r\n', '')
         try:
