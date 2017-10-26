@@ -15,6 +15,15 @@ mysql_setting = {
     "passwd": 'haizhi@)3'
 }
 
+tongji_mysql = {
+    "host": "rm-wz9x07x9567465305.mysql.rds.aliyuncs.com",
+    "port": "3306",
+    "db": 'mongo_monitor_db',
+    "user": 'work_test',
+    "passwd": 'haizhi@2017)'
+
+}
+
 email_setting = {
     "fromaddress": "tangxin@haizhi.com",
     "frompassword": "123456",
