@@ -93,7 +93,7 @@ def main():
 
 
 def get_ctime(cur, date, utime):
-    cur.execute("select ctime from enterprise_new_registered_company where registered_start={}".format(date))
+    cur.execute("select ctime from enterprise_new_registered_company where registered_start='{}'".format(date))
     try:
         ctime = cur.fetchone()[0]
     except:
