@@ -12,6 +12,7 @@
 """
 import time
 
+import datetime
 import pymysql
 import xlrd
 import sys
@@ -227,6 +228,9 @@ def get_pre_investigate(topic_id):
 
 
 if __name__ == "__main__":
+    weekday = datetime.datetime.now().weekday()
+    if weekday != 4:
+        sys.exit()
     source_result = parse_source()
     print "++++++++++++++"
     capture_result = parse_real()
@@ -285,9 +289,9 @@ if __name__ == "__main__":
                "actual_nation,total_province,actual_province," \
                "total_city,actual_city,total_county,actual_county,utime,ctime,unit)" \
                "VALUES('{}','{}',{},{},{},{},{},{},{},{},{},'{}','{}','{}')".format(count_time, topic_cn,
-                                                                                  coverage, s_nation, r_nation,
-                                                                                  s_province,
-                                                                                  r_province, s_city, r_city,
-                                                                                  s_county, r_county, update_time4,
-                                                                                  create_time4, unit)
+                                                                                    coverage, s_nation, r_nation,
+                                                                                    s_province,
+                                                                                    r_province, s_city, r_city,
+                                                                                    s_county, r_county, update_time4,
+                                                                                    create_time4, unit)
         mysql_excute(sql4)
