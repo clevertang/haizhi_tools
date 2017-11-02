@@ -7,6 +7,7 @@ import time
 reload(sys)
 sys.setdefaultencoding("utf-8")
 import json
+
 sys.path.append('..')
 import pymongo
 
@@ -32,7 +33,7 @@ db = client[TestDataDB.MONGODB_DB]
 # b = db['bulletin'].find(
 #     {"_src.0.site": "lnfy.chinacourt.org", "_src.0.url": "http://lnfy.chinacourt.org/public/detail.php?id=2359"},
 #     no_cursor_timeout=True).count()
-cur = db["judgement_wenshu"].find({}).limit(50000)
+cur = db["judgement_wenshu"].find({}).limit(2000000)
 dict_a = None
 print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 dict_a = {"甘肃": 0, "兰州": 0, "嘉峪关": 0, "金昌": 0, "武威": 0, "酒泉": 0, "张掖": 0, "白银": 0, "平凉": 0, "庆阳": 0, "天水": 0,
@@ -43,7 +44,9 @@ for item in cur:
         if i in item.get("case_name", "") or i in item.get("doc_content", ""):
             dict_a[i] += 1
 print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+f = open("tongji.txt", "w")
 for k, v in dict_a.items():
+    f.write(k + ":" + str(v) + "\n")
     print k + ":", v
 
     # for i in ["甘肃", "兰州", "嘉峪关", "金昌", "武威", "酒泉", "张掖", "白银", "平凉", "庆阳", "天水", "陇南", "临夏", "甘南"]:
