@@ -229,7 +229,7 @@ def get_pre_investigate(topic_id):
 
 if __name__ == "__main__":
     weekday = datetime.datetime.now().weekday()
-    if weekday != 4:
+    if weekday != 3:
         sys.exit()
     source_result = parse_source()
     print "++++++++++++++"
