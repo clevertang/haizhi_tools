@@ -7,7 +7,7 @@ import time
 reload(sys)
 sys.setdefaultencoding("utf-8")
 import json
-
+sys.path.append('..')
 import pymongo
 
 from my_tools.my_setting import TestDataDB
