@@ -29,6 +29,11 @@ USER = tongji_mysql["user"]
 DATABASE = tongji_mysql["db"]
 PASSWD = tongji_mysql["passwd"]
 
+PROVINCES = ["安徽", "北京", "重庆", "福建", "广东", "甘肃", "广西", "贵州", "河南", "湖北", "河北",
+             "海南", "黑龙江", "湖南", "吉林", "江苏", "江西", "辽宁", "内蒙古", "宁夏", "青海",
+             "四川", "山东", "上海", "陕西", "山西", "天津", "新疆", "西藏", "云南",
+             "浙江", ""]
+
 
 def get_start(days):
     weekday = datetime.datetime.now().weekday()
@@ -64,37 +69,42 @@ def excute(cur, sql):
         logger.exception(e)
 
 
-def main():
-    start = str(get_start(14))
-    middle = str(get_start(7))
-    end = str(datetime.date.today())
-    dbend = str(get_start(0) - datetime.timedelta(days=1))
-    dbmiddle = str(get_start(7) - datetime.timedelta(days=1))
-    conn = get_mongo()
+def main(province):
     this_week_registed_num = conn["enterprise_data_gov"].find(
-        {"_in_time": {"$gt": start, "$lt": end}, "registered_date": {"$gt": middle, "$lt": end}},
+        {"_in_time": {"$gt": start, "$lt": end}, "registered_date": {"$gt": middle, "$lt": end},
+         "province": {'$regex': ".*{}.*".format(province)}},
         no_cursor_timeout=True).count()
     last_week_registed_num = conn["enterprise_data_gov"].find(
-        {"_in_time": {"$gt": start, "$lt": end}, "registered_date": {"$gt": start, "$lt": middle}},
+        {"_in_time": {"$gt": start, "$lt": end}, "registered_date": {"$gt": start, "$lt": middle},
+         "province": {'$regex': ".*{}.*".format(province)}},
         no_cursor_timeout=True).count()
-    mysqldb = get_mysql()
-    cur = mysqldb.cursor()
     utime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     ctime1 = get_ctime(cur, start, utime)
     ctime2 = get_ctime(cur, start, utime)
-    sql1 = "replace into enterprise_new_registered_company (registered_start,registered_num,ctime,utime,registered_end)" \
-           "VALUES('{}',{},'{}','{}','{}')".format(start, last_week_registed_num, ctime1, utime, dbmiddle)
-    sql2 = "replace into enterprise_new_registered_company (registered_start,registered_num,ctime,utime,registered_end)" \
-           "VALUES('{}',{},'{}','{}','{}')".format(middle, this_week_registed_num, ctime2, utime, dbend)
+    if province == "":
+        province = "全国"
+    sql1 = "replace into enterprise_new_registered_company (id,registered_start,registered_num,ctime,utime,registered_end,province)" \
+           "VALUES('{}','{}','{}','{}','{}','{}','{}')".format(start + province, start,
+                                                               last_week_registed_num,
+                                                               ctime1, utime,
+                                                               dbmiddle,
+                                                               province, )
+
+    sql2 = "replace into enterprise_new_registered_company (id,registered_start,registered_num,ctime,utime,registered_end,province)" \
+           "VALUES('{}','{}','{}','{}','{}','{}','{}')".format(middle + province, middle,
+                                                               this_week_registed_num,
+                                                               ctime2, utime, dbend,
+                                                               province,
+                                                               )
     excute(cur, sql1)
     excute(cur, sql2)
     mysqldb.commit()
-    mysqldb.close()
+    # mysqldb.close()
 
 
 def get_ctime(cur, date, utime):
-    cur.execute("select ctime from enterprise_new_registered_company where registered_start='{}'".format(date))
     try:
+        cur.execute("select ctime from enterprise_new_registered_company where registered_start='{}'".format(date))
         ctime = cur.fetchone()[0]
     except:
         ctime = utime
@@ -102,4 +112,14 @@ def get_ctime(cur, date, utime):
 
 
 if __name__ == "__main__":
-    main()
+    start = str(get_start(14))
+    middle = str(get_start(7))
+    end = str(datetime.date.today())
+    dbend = str(get_start(0) - datetime.timedelta(days=1))
+    dbmiddle = str(get_start(7) - datetime.timedelta(days=1))
+    conn = get_mongo()
+    mysqldb = get_mysql()
+    cur = mysqldb.cursor()
+    for province in PROVINCES:
+        main(province)
+    mysqldb.close()
