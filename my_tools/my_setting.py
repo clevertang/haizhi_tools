@@ -32,6 +32,11 @@ email_setting = {
     "server": "smtp.qq.com"
 
 }
+email_setting_qq = {
+    "addr": "961577196@qq.com",
+    "passwd": "ckrlblaropxkbchi",
+    "server": "smtp.qq.com"
+}
 
 
 class TestDataDB(object):
