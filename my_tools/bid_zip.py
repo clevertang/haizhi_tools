@@ -18,11 +18,11 @@ import sys
 import datetime
 import pymongo
 import zipfile
-
-from my_tools import my_email
-
 sys.path.append("..")
 sys.path.append("../..")
+from my_tools import my_email
+
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
