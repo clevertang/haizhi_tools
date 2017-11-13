@@ -18,10 +18,10 @@ import sys
 import datetime
 import pymongo
 import zipfile
+
 sys.path.append("..")
 sys.path.append("../..")
 from my_tools import my_email
-
 
 reload(sys)
 sys.setdefaultencoding('utf8')
@@ -46,7 +46,7 @@ class GsCredit:
         for table in tables:
             _file = open(filename, 'w')
             cursor = db_save[table].find(
-                {"_in_time": {"$gte": "{}".format(time1), "$lte": "{}".format(time)}})
+                {"_in_time": {"$gte": "{}".format(time1), "$lte": "{}".format(time)}}, no_cursor_timeout=True)
             for element in cursor:
                 try:
                     data = {
