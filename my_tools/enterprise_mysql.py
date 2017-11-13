@@ -120,6 +120,10 @@ if __name__ == "__main__":
     conn = get_mongo()
     mysqldb = get_mysql()
     cur = mysqldb.cursor()
-    for province in PROVINCES:
-        main(province)
-    mysqldb.close()
+    try:
+        for province in PROVINCES:
+            main(province)
+    except:
+        pass
+    finally:
+        mysqldb.close()
