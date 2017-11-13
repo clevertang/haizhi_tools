@@ -65,7 +65,8 @@ class GsCredit:
         # my_email.qq_send("招标信息-{}".format(date), "招标信息-{}".format(date), filename.replace("txt", "zip"),
         #                  "tangxin@haizhi.com")
         print filename
-        my_email.hz_send("招标信息-{}".format(date), filename.replace("txt", "zip"), "tangxin@haizhi.com,hubo@haizhi.com")
+        my_email.hz_send("招标信息-{}".format(date), filename.replace("txt", "zip"),
+                         "tangxin@haizhi.com,hubo@haizhi.com,zhaobiao@xingheng.ai ")
 
 
 if __name__ == "__main__":
