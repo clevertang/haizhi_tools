@@ -67,7 +67,7 @@ class my_dict(object):
 def parse_source():
     try:
         source = xlrd.open_workbook(
-            "/Users/haizhi/clevertang/DataGroup-Docs/04产品与迭代/海致互联网数据采集系统/03_系统数据源/汇总文档/[2017-10-12]数据源调研列表.xlsm")
+            "/Users/haizhi/clevertang/DataGroup-Docs/04产品与迭代/海致互联网数据采集系统/03_系统数据源/汇总文档/[2017-11-06]数据源调研列表.xlsm")
     except Exception as e:
         logger.error("数据源调研列表打开失败")
         logger.exception(e)
@@ -132,7 +132,7 @@ def parse_source():
 def parse_real():
     try:
         real = xlrd.open_workbook(
-            "/Users/haizhi/clevertang/DataGroup-Docs/04产品与迭代/海致互联网数据采集系统/03_系统数据源/汇总文档/[2017-10-12]已采集数据源列表.xlsm")
+            "/Users/haizhi/clevertang/DataGroup-Docs/04产品与迭代/海致互联网数据采集系统/03_系统数据源/汇总文档/[2017-11-06]已采集数据源列表.xlsm")
     except Exception as e:
         logger.error("已采集数据源列表打开失败")
         logger.exception(e)
