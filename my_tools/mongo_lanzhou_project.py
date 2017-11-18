@@ -3,6 +3,7 @@
 import sys
 
 import pymysql
+
 sys.path.append('..')
 
 reload(sys)
@@ -149,5 +150,5 @@ if __name__ == "__main__":
     w.save("5province_increase-{}.xls".format(yesterday))
     my_email.hz_send("兰州项目西北五省涉诉站点统计-{}".format(yesterday),
                      "5province_increase-{}.xls".decode("utf8").format(yesterday),
-                     "tangxin@haizhi.com,youfeng@haizhi.com.zhangjun@haizhi.com,chenzhichao@hiazhi.com")
+                     "tangxin@haizhi.com,youfeng@haizhi.com,chenzhichao@hiazhi.com")
     mysql_db.close()
