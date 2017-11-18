@@ -59,7 +59,7 @@ def wenshu(name_list):
 
 def ktgg(province):
     total = 0
-    cur2 = db["court_ktgg"].find({}).limit(1000)
+    cur2 = db["court_ktgg"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     aaa = 0
     for item in cur2:
