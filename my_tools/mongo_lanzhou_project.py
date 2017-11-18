@@ -64,10 +64,11 @@ def ktgg(province):
     aaa = 0
     for item in cur2:
         aaa += 1
-        if aaa > 420000:
-            print province, type(province)
-            print item.get("province", ""), type(item.get("province", ""))
-        if province in item.get("province", ""):
+
+        province2 = item.get("province", "")
+        if item.get("province", "") is None:
+            province2 = ""
+        if province in province2:
             total += 1
         print aaa
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
