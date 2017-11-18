@@ -1,5 +1,6 @@
 # encoding: utf-8
 import smtplib
+from email.header import Header
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from email.mime.application import MIMEApplication
@@ -12,21 +13,16 @@ sys.path.append("../../..")
 from my_tools import my_setting
 
 _user = my_setting.email_setting["fromaddress"]
-
 _pwd = my_setting.email_setting["frompassword"]
-youfeng = my_setting.email_setting["toaddress1"]
-hubo = my_setting.email_setting["toaddress2"]
-_cc = "zhangjun@haizhi.com"
 
 
 def hz_send(topic, name, _to):
     msg = MIMEMultipart()
     msg["Accept-Language"] = "zh-CN"
     msg["Accept-Charset"] = "ISO-8859-1,utf-8"
-    msg["Subject"] = str(datetime.date.today())
+    msg["Subject"] = Header(topic, 'utf-8')
     msg["From"] = _user
     msg["To"] = _to
-    msg["Cc"] = _cc
     part = MIMEText(topic, "utf-8")
     msg.attach(part)
 
@@ -50,10 +46,9 @@ def qq_send(topic, subject, filename, _to):
     msg = MIMEMultipart()
     msg["Accept-Language"] = "zh-CN"
     msg["Accept-Charset"] = "ISO-8859-1,utf-8"
-    msg["Subject"] = subject
+    msg["Subject"] = Header(subject, 'utf-8')
     msg["From"] = "961577196@qq.com"
     msg["To"] = _to
-    msg["Cc"] = _cc
     part = MIMEText(topic, "utf-8")
     msg.attach(part)
 
@@ -75,5 +70,6 @@ def qq_send(topic, subject, filename, _to):
 
 if __name__ == "__main__":
     pass
-    # send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()).decode("utf-8"), hubo)
+    # pass
+    # hz_send("火车采集器统计情况", '火车采集器{}数据统计.xls'.format(datetime.date.today()).decode("utf-8"), hubo)
     # send("招行站点统计情况", "result.xls", youfeng)
