@@ -64,7 +64,7 @@ def ktgg(province):
     aaa = 0
     for item in cur2:
         aaa += 1
-        if aaa > 460000:
+        if aaa > 420000:
             print province, type(province)
             print item.get("province", ""), type(item.get("province", ""))
         if province in item.get("province", ""):
