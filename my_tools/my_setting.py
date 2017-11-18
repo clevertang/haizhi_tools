@@ -25,10 +25,8 @@ tongji_mysql = {
 }
 
 email_setting = {
-    "fromaddress": "tangxin@haizhi.com",
-    "frompassword": "123456",
-    "toaddress1": "youfeng@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
-    "toaddress2": "hubo@haizhi.com,zhangjun@haizhi.com,tangxin@haizhi.com",
+    "fromaddress": "datamonitor@haizhi.com",
+    "frompassword": "LcoS!WKXmWmFu2Or",
     "server": "smtp.qq.com"
 
 }
