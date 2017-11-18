@@ -43,13 +43,13 @@ shanxi = ("陕西", "宝鸡", "咸阳", "渭南", "铜川", "西安", "汉中", 
 
 
 def wenshu(name_list):
-    cur = db["judgement_wenshu"].find({})
+    cur1 = db["judgement_wenshu"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     dict_a = OrderedDict()
     for item in name_list:
         dict_a[item] = 0
 
-    for item in cur:
+    for item in cur1:
         for i in dict_a.keys():
             if i in item.get("case_name", "") or i in item.get("doc_content", ""):
                 dict_a[i] += 1
@@ -59,9 +59,9 @@ def wenshu(name_list):
 
 def ktgg(province):
     total = 0
-    cur = db["court_ktgg"].find({})
+    cur2 = db["court_ktgg"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    for item in cur:
+    for item in cur2:
         if province in item.get("province", ""):
             total += 1
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
