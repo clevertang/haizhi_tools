@@ -59,11 +59,14 @@ def wenshu(name_list):
 
 def ktgg(province):
     total = 0
-    cur2 = db["court_ktgg"].find({})
+    cur2 = db["court_ktgg"].find({}).limit(1000)
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     aaa = 0
     for item in cur2:
         aaa += 1
+        if aaa > 460000:
+            print province, type(province)
+            print item.get("province", ""), type(item.get("province", ""))
         if province in item.get("province", ""):
             total += 1
         print aaa
