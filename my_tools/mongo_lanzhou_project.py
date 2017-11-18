@@ -43,7 +43,7 @@ shanxi = ("陕西", "宝鸡", "咸阳", "渭南", "铜川", "西安", "汉中", 
 
 
 def wenshu(name_list):
-    cur1 = db["judgement_wenshu"].find({}).limit(100)
+    cur1 = db["judgement_wenshu"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     dict_a = OrderedDict()
     for item in name_list:
