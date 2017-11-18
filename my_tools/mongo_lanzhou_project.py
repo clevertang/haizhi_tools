@@ -43,7 +43,7 @@ shanxi = ("陕西", "宝鸡", "咸阳", "渭南", "铜川", "西安", "汉中", 
 
 
 def wenshu(name_list):
-    cur1 = db["judgement_wenshu"].find({})
+    cur1 = db["judgement_wenshu"].find({}).limit(100)
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     dict_a = OrderedDict()
     for item in name_list:
@@ -150,5 +150,5 @@ if __name__ == "__main__":
     w.save("5province_increase-{}.xls".format(yesterday))
     my_email.hz_send("兰州项目西北五省涉诉站点统计-{}".format(yesterday),
                      "5province_increase-{}.xls".decode("utf8").format(yesterday),
-                     "tangxin@haizhi.com,youfeng@haizhi.com,chenzhichao@hiazhi.com")
+                     "tangxin@haizhi.com")
     mysql_db.close()
