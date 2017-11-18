@@ -29,6 +29,7 @@ client = pymongo.MongoClient(host=TestDataDB.MONGODB_SERVER, port=TestDataDB.MON
 db_auth = client.admin
 db_auth.authenticate(TestDataDB.MONGO_USER, TestDataDB.MONGO_PSW)
 db = client[TestDataDB.MONGODB_DB]
+
 gansu = ("甘肃", "兰州", "嘉峪关", "金昌", "武威", "酒泉", "张掖", "白银", "平凉", "庆阳", "天水",
          "陇南", "临夏", "甘南")
 xinjiang = ("新疆", "乌鲁木齐", "克拉玛依", "吐鲁番", "哈密", "阿克苏", "喀什", "昌吉",
@@ -43,16 +44,11 @@ shanxi = ("陕西", "宝鸡", "咸阳", "渭南", "铜川", "西安", "汉中", 
 
 
 def wenshu(name_list):
-    cur1 = db["judgement_wenshu"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     dict_a = OrderedDict()
     for item in name_list:
-        dict_a[item] = 0
+        dict_a[item] = dict_all[item]
 
-    for item in cur1:
-        for i in dict_a.keys():
-            if i in item.get("case_name", "") or i in item.get("doc_content", ""):
-                dict_a[i] += 1
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     return dict_a
 
@@ -132,11 +128,23 @@ def excute(sql):
     mysql_db.commit()
 
 
+def get_all_ktgg():
+    cur = db["judgement_wenshu"].find({})
+    for doc in cur:
+        for city_ in all_city:
+            if city_ in doc.get("case_name", "") or city_ in doc.get("doc_content", ""):
+                dict_all[city] += 1
+
+
 if __name__ == "__main__":
     w = Workbook()
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
     pre_yesterday = yesterday - datetime.timedelta(days=1)
-
+    all_city = gansu + xinjiang + qinghai + ningxia + shanxi
+    dict_all = {}
+    for city in all_city:
+        dict_all[city] = 0
+    get_all_ktgg()
     dict_b = OrderedDict()
     dict_b["甘肃"] = gansu
     dict_b["新疆"] = xinjiang
