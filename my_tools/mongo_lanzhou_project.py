@@ -61,16 +61,12 @@ def ktgg(province):
     total = 0
     cur2 = db["court_ktgg"].find({})
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
-    aaa = 0
     for item in cur2:
-        aaa += 1
-
         province2 = item.get("province", "")
         if item.get("province", "") is None:
             province2 = ""
         if province in province2:
             total += 1
-        print aaa
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     return total
 
