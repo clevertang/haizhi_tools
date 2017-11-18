@@ -44,12 +44,9 @@ shanxi = ("陕西", "宝鸡", "咸阳", "渭南", "铜川", "西安", "汉中", 
 
 
 def wenshu(name_list):
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     dict_a = OrderedDict()
     for item in name_list:
         dict_a[item] = dict_all[item]
-
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     return dict_a
 
 
@@ -129,11 +126,13 @@ def excute(sql):
 
 
 def get_all_ktgg():
+    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     cur = db["judgement_wenshu"].find({})
     for doc in cur:
         for city_ in all_city:
             if city_ in doc.get("case_name", "") or city_ in doc.get("doc_content", ""):
-                dict_all[city] += 1
+                dict_all[city_] += 1
+    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
 
 
 if __name__ == "__main__":
