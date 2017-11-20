@@ -77,24 +77,24 @@ def main(name, wenshu_num, ktgg_num):
     sheet.write(1, 1, "{}数据量".format(datetime.date.today()).decode("utf-8"))
     start_index = 2
 
-    ktgg_pk = "ktgg" + name + str(yesterday)
+    ktgg_pk = "ktgg" + name + str(today)
     sql1 = "replace into involved_daily (province,date,topic,num,object) VALUES ('{}','{}','{}',{},'{}')".format(name,
-                                                                                                                 yesterday,
+                                                                                                                 today,
                                                                                                                  "开庭公告",
                                                                                                                  ktgg_num,
                                                                                                                  ktgg_pk)
     excute(sql1)
-    ctgg_inrease = get_increase(ktgg_num, ktgg_pk)
+    ctgg_inrease = get_increase(ktgg_num, "ktgg" + name)
     for k, v in wenshu_num.items():
-        wenshu_pk = k + str(yesterday)
-        wenshu_increase = get_increase(v, wenshu_pk)
+        wenshu_pk = k + str(today)
+        wenshu_increase = get_increase(v, k)
         print wenshu_increase
         sheet.write(start_index, 0, k.decode("utf-8"))
         sheet.write(start_index, 1, v)
         sheet.write(start_index, 2, wenshu_increase)
         start_index += 1
         sql3 = "replace into involved_daily (province,date,topic,num,object) VALUES ('{}','{}','{}',{},'{}')".format(k,
-                                                                                                                     yesterday,
+                                                                                                                     today,
                                                                                                                      "裁判文书",
                                                                                                                      v,
                                                                                                                      wenshu_pk)
@@ -104,7 +104,8 @@ def main(name, wenshu_num, ktgg_num):
     sheet.write(start_index + 2, 2, ctgg_inrease)
 
 
-def get_increase(pre_num, pk):
+def get_increase(pre_num, k):
+    pk = k + str(yesterday)
     sql2 = "select num from involved_daily where object='{}'".format(pk)
     excute(sql2)
     try:
@@ -125,7 +126,7 @@ def excute(sql):
     mysql_db.commit()
 
 
-def get_all_ktgg():
+def get_all_wenshu():
     print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     cur = db["judgement_wenshu"].find({})
     for doc in cur:
@@ -137,13 +138,13 @@ def get_all_ktgg():
 
 if __name__ == "__main__":
     w = Workbook()
+    today = datetime.date.today()
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    pre_yesterday = yesterday - datetime.timedelta(days=1)
     all_city = gansu + xinjiang + qinghai + ningxia + shanxi
     dict_all = {}
     for city in all_city:
         dict_all[city] = 0
-    get_all_ktgg()
+    get_all_wenshu()
     dict_b = OrderedDict()
     dict_b["甘肃"] = gansu
     dict_b["新疆"] = xinjiang
