@@ -19,6 +19,8 @@ import datetime
 import pymongo
 import zipfile
 
+from common.loghandler import getLogger
+
 sys.path.append("..")
 sys.path.append("../..")
 from my_tools import my_email
@@ -57,19 +59,22 @@ class GsCredit:
                     }
                     _file.write(json.dumps(data, ensure_ascii=False) + "\n")
                 except Exception, e:
-                    print e.message
+                    logger.error(e)
             _file.close()
         z = zipfile.ZipFile(filename.replace("txt", "zip"), 'w', zipfile.ZIP_DEFLATED)
         z.write(filename)
         z.close()
         # my_email.qq_send("招标信息-{}".format(date), "招标信息-{}".format(date), filename.replace("txt", "zip"),
         #                  "tangxin@haizhi.com")
-        print filename
+        logger.info("文件{}创建完成".format(filename))
         my_email.hz_send("招标信息-{}".format(date), filename.replace("txt", "zip"),
                          "tangxin@haizhi.com,hubo@haizhi.com,zhaobiao@xingheng.ai ")
 
 
 if __name__ == "__main__":
+    logger = getLogger("招中标导出")
     date = datetime.date.today()
+    logger.info("开始{}".format(date))
     worker = GsCredit()
     worker.start()
+    logger.info("完成{}".format(date))
