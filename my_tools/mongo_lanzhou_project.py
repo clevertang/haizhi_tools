@@ -77,7 +77,7 @@ def main(name, wenshu_num, ktgg_num):
     sheet.write(1, 1, "{}数据量".format(datetime.date.today()).decode("utf-8"))
     start_index = 2
 
-    ktgg_pk = "ktgg" + name + str(pre_yesterday)
+    ktgg_pk = "ktgg" + name + str(yesterday)
     sql1 = "replace into involved_daily (province,date,topic,num,object) VALUES ('{}','{}','{}',{},'{}')".format(name,
                                                                                                                  yesterday,
                                                                                                                  "开庭公告",
@@ -86,7 +86,7 @@ def main(name, wenshu_num, ktgg_num):
     excute(sql1)
     ctgg_inrease = get_increase(ktgg_num, ktgg_pk)
     for k, v in wenshu_num.items():
-        wenshu_pk = k + str(pre_yesterday)
+        wenshu_pk = k + str(yesterday)
         wenshu_increase = get_increase(v, wenshu_pk)
         print wenshu_increase
         sheet.write(start_index, 0, k.decode("utf-8"))
@@ -160,5 +160,5 @@ if __name__ == "__main__":
     w.save("5province_increase-{}.xls".format(yesterday))
     my_email.hz_send("兰州项目西北五省涉诉站点统计-{}".format(yesterday),
                      "5province_increase-{}.xls".decode("utf8").format(yesterday),
-                     "tangxin@haizhi.com,chenzhichao@haizhi.com,hubo@haizhi.com,zhangjun@haizhi.com,youfeng@haizhi.com")
+                     "tangxin@haizhi.com")
     mysql_db.close()
