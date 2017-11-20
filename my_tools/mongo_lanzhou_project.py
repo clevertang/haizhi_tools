@@ -53,14 +53,14 @@ def wenshu(name_list):
 def ktgg(province):
     total = 0
     cur2 = db["court_ktgg"].find({})
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    logger.info("开庭公告", time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     for item in cur2:
         province2 = item.get("province", "")
         if item.get("province", "") is None:
             province2 = ""
         if province in province2:
             total += 1
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    logger.info("开庭公告", time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     return total
 
 
@@ -88,7 +88,7 @@ def main(name, wenshu_num, ktgg_num):
     for k, v in wenshu_num.items():
         wenshu_pk = k + str(today)
         wenshu_increase = get_increase(v, k)
-        print wenshu_increase
+        logger.info(k, wenshu_increase)
         sheet.write(start_index, 0, k.decode("utf-8"))
         sheet.write(start_index, 1, v)
         sheet.write(start_index, 2, wenshu_increase)
@@ -121,19 +121,18 @@ def excute(sql):
         mysql_cur.execute(sql)
         logger.info(sql)
     except Exception as e:
-        print sql, e
         logger.exception(e)
     mysql_db.commit()
 
 
 def get_all_wenshu():
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
     cur = db["judgement_wenshu"].find({})
     for doc in cur:
         for city_ in all_city:
             if city_ in doc.get("case_name", "") or city_ in doc.get("doc_content", ""):
                 dict_all[city_] += 1
-    print time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+    logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
 
 
 if __name__ == "__main__":
@@ -154,7 +153,7 @@ if __name__ == "__main__":
     mysql_db = get_conn()
     mysql_cur = mysql_db.cursor()
     for a, b in dict_b.items():
-        print a
+        logger.info(a)
         ktgg_ = ktgg(a)
         wenshu_ = wenshu(b)
         main(a, wenshu_, ktgg_)
