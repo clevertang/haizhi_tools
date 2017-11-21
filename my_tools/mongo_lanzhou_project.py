@@ -76,13 +76,14 @@ def main(name, wenshu_num, ktgg_num):
     sheet.write(1, 0, "市".decode("utf-8"))
     sheet.write(1, 1, "{}数据量".format(datetime.date.today()).decode("utf-8"))
     start_index = 2
-
+    utime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
     ktgg_pk = "ktgg" + name + str(today)
-    sql1 = "replace into involved_daily (province,date,topic,num,object) VALUES ('{}','{}','{}',{},'{}')".format(name,
+    sql1 = "replace into involved_daily (province,date,topic,num,object,utime) VALUES ('{}','{}','{}',{},'{}','{}')".format(name,
                                                                                                                  today,
                                                                                                                  "开庭公告",
                                                                                                                  ktgg_num,
-                                                                                                                 ktgg_pk)
+                                                                                                                 ktgg_pk,
+                                                                                                                 utime)
     excute(sql1)
     ctgg_inrease = get_increase(ktgg_num, "ktgg" + name)
     for k, v in wenshu_num.items():
@@ -93,11 +94,12 @@ def main(name, wenshu_num, ktgg_num):
         sheet.write(start_index, 1, v)
         sheet.write(start_index, 2, wenshu_increase)
         start_index += 1
-        sql3 = "replace into involved_daily (province,date,topic,num,object) VALUES ('{}','{}','{}',{},'{}')".format(k,
+        sql3 = "replace into involved_daily (province,date,topic,num,object,utime) VALUES ('{}','{}','{}',{},'{}','{}')".format(k,
                                                                                                                      today,
                                                                                                                      "裁判文书",
                                                                                                                      v,
-                                                                                                                     wenshu_pk)
+                                                                                                                     wenshu_pk,
+                                                                                                                     utime)
         excute(sql3)
     sheet.write(start_index + 2, 0, "开庭公告数量".decode("utf-8"))
     sheet.write(start_index + 2, 1, ktgg_num)
