@@ -53,14 +53,14 @@ def wenshu(name_list):
 def ktgg(province):
     total = 0
     cur2 = db["court_ktgg"].find({})
-    logger.info("开庭公告", time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    logger.info("开始遍历开庭公告")
     for item in cur2:
         province2 = item.get("province", "")
         if item.get("province", "") is None:
             province2 = ""
         if province in province2:
             total += 1
-    logger.info("开庭公告", time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    logger.info("结束遍历开庭公告")
     return total
 
 
@@ -88,7 +88,7 @@ def main(name, wenshu_num, ktgg_num):
     for k, v in wenshu_num.items():
         wenshu_pk = k + str(today)
         wenshu_increase = get_increase(v, k)
-        logger.info(k, wenshu_increase)
+        logger.info(k + str(wenshu_increase))
         sheet.write(start_index, 0, k.decode("utf-8"))
         sheet.write(start_index, 1, v)
         sheet.write(start_index, 2, wenshu_increase)
@@ -126,13 +126,13 @@ def excute(sql):
 
 
 def get_all_wenshu():
-    logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    logger.info("开始遍历裁判文书")
     cur = db["judgement_wenshu"].find({})
     for doc in cur:
         for city_ in all_city:
             if city_ in doc.get("case_name", "") or city_ in doc.get("doc_content", ""):
                 dict_all[city_] += 1
-    logger.info(time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time())))
+    logger.info("结束遍历裁判文书")
 
 
 if __name__ == "__main__":
