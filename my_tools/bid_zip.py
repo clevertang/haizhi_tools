@@ -19,10 +19,10 @@ import datetime
 import pymongo
 import zipfile
 
-from common.loghandler import getLogger
-
 sys.path.append("..")
 sys.path.append("../..")
+from common.loghandler import getLogger
+
 from my_tools import my_email
 
 reload(sys)
